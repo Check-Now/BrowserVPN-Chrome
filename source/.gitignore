@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+*.exe
+*.msi
+*.issig
+apps/extension/dist/
+native-host/dist/
+*.tmp

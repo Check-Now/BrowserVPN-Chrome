@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+source/apps/extension/node_modules/
+
+# Build output
+dist/
+source/apps/extension/dist/
+source/native-host/dist/
+BrowserNode-Chrome-Extension/
+
+# Local binaries and installers
+*.exe
+!sing-box-*-windows-amd64/
+!sing-box-*-windows-amd64/**
+!sing-box-*-windows-amd64/*.exe
+*.msi
+*.issig
+*.zip
+*.rar
+
+# Secrets and local config
+.env
+.env.*
+!**/.env.example
+*.log
+logs/
+*.tmp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

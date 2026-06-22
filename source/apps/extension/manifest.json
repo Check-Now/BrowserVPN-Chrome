@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "BrowserNode",
+  "version": "0.1.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp98b6s2C0EdQfVt3cqckmhnAw/CKnZ5UUVLEDbhhaDkStrWLyYoWlqqa3Biw6wid89PZDIBln3Afa8MU+voJYVVNv1/UV8LIaAnnmROwJaLerQ9Ciidf4LdrKMVD6qXhw7IALurrxC7iL3EhzPOnCBE04wUPY7rEioFeBY9WfEhrE8YQKVo6SlBqMCDK4d3aQR89rlO1fywYNjFJgzb8Y75QRDxOPT55dMIoyeF+BFStoHkOrhrjK2P6W2gQuffEAiuLQ4J2JnFr4J1VOttvcudKluie1JvAEem7TnNZPnK2qbaajP64ILeuD4CJ6hZa5Z7gXQOGC0shv24TBD39HQIDAQAB",
+  "description": "Proxy regular Chrome pages through a local sing-box node.",
+  "permissions": ["proxy", "storage", "nativeMessaging", "alarms"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "action": {
+    "default_title": "BrowserNode",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "minimum_chrome_version": "116"
+}
