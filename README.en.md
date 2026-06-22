@@ -2,50 +2,42 @@
 
 [中文](README.md) | [English](README.en.md)
 
-BrowserNode is a local proxy tool for Windows and Chrome. The Chrome extension provides the UI and controls Chrome proxy settings. The Native Host starts `sing-box.exe`, and `sing-box` opens a local SOCKS5 listener on `127.0.0.1` for the selected node.
+BrowserNode is a local proxy tool for Windows and Chrome. It uses a Chrome extension to manage subscriptions, nodes, and proxy rules, and a Native Host to start local `sing-box`. It only proxies regular Chrome windows and does not change the Windows system proxy.
 
-This project is source-available / noncommercial. It is not OSI Open Source. Commercial use is not allowed. Users must follow their local laws and regulations and use this software at their own risk.
+This project is for noncommercial use only. Users are responsible for complying with local laws and for all consequences of use.
+
+![BrowserNode extension preview](assets/browsernode-preview.png)
 
 ## Features
 
 - Import subscription URLs, manual nodes, and Clash / Mihomo `proxies` configs.
 - Supports common VLESS, VMess, Trojan, and Shadowsocks nodes.
-- Each subscription URL is shown as one node group.
-- Click a node group to expand or collapse its nodes.
-- Each node group has its own latency-test button.
-- Select a node and connect with one click.
-- Disconnecting clears Chrome proxy settings and stops the `sing-box.exe` process started by the Native Host.
-- Only controls regular Chrome window proxy settings. It does not change the Windows system proxy.
-- Subscription and node data stay in local Chrome `storage.local`. Page content is not read.
+- Groups nodes by subscription, with expand/collapse and per-group latency testing.
+- One-click connect and disconnect. Disconnecting stops the local proxy core.
+- Supports proxy-all, rule-based proxy, and direct-site bypass modes.
+- Data stays in local Chrome `storage.local`. Page content is not read.
 
-## Simple Install
+## Requirements
 
-### 1. Prepare files
+- Windows 10 / 11
+- Google Chrome or Chromium
+- Internet access during installation to install dependencies and download `sing-box`
 
-After downloading or cloning this repository, the folder should look like this:
+## Install
 
-```text
-BrowserNode/
-  install/
-  source/
-```
-
-The one-click installer downloads the Windows AMD64 build of `sing-box` from GitHub. You do not need to keep `sing-box.exe` in this repository.
-
-### 2. Run installer
-
-Double-click:
+1. Download or clone this repository.
+2. Double-click:
 
 ```text
-install/一键安装-BrowserNode.bat
+install\一键安装-BrowserNode.bat
 ```
 
-The script will:
+The installer will:
 
-- Check and install Node.js, npm, and Go.
+- Install or check Node.js, npm, and Go.
 - Build the Chrome extension.
-- Copy the extension to `BrowserNode-Chrome-Extension`.
-- Download and install `sing-box.exe` to `%LOCALAPPDATA%\BrowserNode\bin`.
+- Generate the `BrowserNode-Chrome-Extension` folder.
+- Download and install `sing-box.exe`.
 - Build and register the Native Host.
 - Open the Chrome extensions page.
 
@@ -55,12 +47,12 @@ If double-clicking is blocked, run this in PowerShell:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browsernode.ps1
 ```
 
-## Load The Chrome Extension
+## Load Extension
 
 1. Open `chrome://extensions`.
 2. Enable Developer mode.
 3. Click "Load unpacked".
-4. Select:
+4. Select this folder under the repository root:
 
 ```text
 BrowserNode-Chrome-Extension
@@ -68,67 +60,16 @@ BrowserNode-Chrome-Extension
 
 5. Open the BrowserNode extension settings page.
 
-## Regenerate Dependencies And Build Output
-
-If `node_modules` is missing or you need to regenerate the extension `dist`, run:
-
-```powershell
-cd source\apps\extension
-npm install
-npm test
-npm run build
-```
-
-Generated output:
-
-```text
-source/apps/extension/node_modules/
-source/apps/extension/dist/
-```
-
-To regenerate the root extension folder loaded by Chrome:
-
-```powershell
-cd ..\..\..
-Remove-Item .\BrowserNode-Chrome-Extension -Recurse -Force -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force -Path .\BrowserNode-Chrome-Extension
-Copy-Item .\source\apps\extension\dist\* .\BrowserNode-Chrome-Extension -Recurse -Force
-```
-
 ## Usage
 
-1. Paste a subscription URL in Subscription Management and import it.
-2. Each subscription appears as a node group in the Node List.
-3. Click the group title to expand the nodes.
-4. Click the group's latency-test button to test that group.
-5. Select a node.
-6. Click "Connect".
-7. Click "Disconnect" when you no longer need the proxy.
+1. Import a subscription URL or add manual nodes in Subscription Management.
+2. Expand a subscription group in the Node List.
+3. Click the group's latency-test button.
+4. Select a node.
+5. Click "Connect".
+6. Click "Disconnect" when the proxy is no longer needed.
 
-After disconnecting, the extension clears Chrome proxy settings and asks the Native Host to stop `sing-box.exe`.
-
-## After Reboot
-
-You do not need to start `sing-box.exe` or the Native Host manually.
-
-After rebooting, open Chrome, open BrowserNode, select a node, and click "Connect". Chrome will start the Native Host automatically, and the Native Host will start `sing-box.exe`.
-
-## Project Structure
-
-```text
-BrowserNode/
-  README.md                         Chinese README
-  README.en.md                      English README
-  LICENSE                           PolyForm Noncommercial License 1.0.0
-  .gitignore
-  install/                          User-facing installer scripts
-  source/                           Source code
-    apps/extension/                 Chrome MV3 extension
-    native-host/                    Go Native Messaging Host
-    installer/scripts/              Native Host install/uninstall scripts
-    docs/                           Developer docs
-  BrowserNode-Chrome-Extension/     Generated from source/apps/extension/dist, no need to upload
-```
+After rebooting Windows, you do not need to start `sing-box.exe` or the Native Host manually. Open Chrome and click "Connect" in BrowserNode.
 
 ## Uninstall
 
@@ -140,22 +81,23 @@ BrowserNode/
 powershell -ExecutionPolicy Bypass -File .\source\installer\scripts\uninstall-host.ps1
 ```
 
-4. Optionally delete:
+4. Optionally delete the local install directory:
 
 ```text
 %LOCALAPPDATA%\BrowserNode
 ```
 
-## Security And Privacy
+## Privacy
 
 - Does not read page content.
-- Does not inject content scripts.
-- Does not upload subscriptions, nodes, or latency results to a cloud service.
+- Does not inject page scripts.
+- Does not upload subscriptions, nodes, or latency results.
+- Only controls regular Chrome window proxy settings.
 
 ## License
 
 This project is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE).
 
-You may study, research, modify, and distribute this project for noncommercial purposes. Commercial use is not allowed. The software is provided as is, without warranty, and users are responsible for their own use and consequences.
+You may study, research, modify, and distribute this project for noncommercial purposes. Commercial use is not allowed. The software is provided as is, without warranty.
 
-Copyright holder: `zhituo wei`.
+Copyright (C) 2026 zhituo wei
