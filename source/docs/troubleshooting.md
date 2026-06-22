@@ -4,7 +4,7 @@
 
 - Check the extension ID in the host manifest.
 - Check the registry default value points to the manifest JSON.
-- Check the manifest `path` points to `browernode-host.exe`.
+- Check the manifest `path` points to `browservpn-host.exe`.
 
 ## Connect fails before Chrome proxy changes
 
@@ -19,7 +19,7 @@ Open the popup and click disconnect. The extension calls `chrome.proxy.settings.
 Check:
 
 ```text
-%LOCALAPPDATA%\BrowserNode\logs\
+%LOCALAPPDATA%\BrowserVPN\logs\
 ```
 
 Logs are redacted status codes, not full subscription or node data.

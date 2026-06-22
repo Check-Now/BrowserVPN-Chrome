@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"browernode/native-host/internal/validation"
+	"browservpn/native-host/internal/validation"
 )
 
 func RuntimeDir() (string, error) {
@@ -13,7 +13,7 @@ func RuntimeDir() (string, error) {
 	if base == "" {
 		base = os.TempDir()
 	}
-	dir := filepath.Join(base, "BrowserNode", "runtime")
+	dir := filepath.Join(base, "BrowserVPN", "runtime")
 	return dir, os.MkdirAll(dir, 0700)
 }
 

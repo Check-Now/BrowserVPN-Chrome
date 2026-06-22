@@ -18,7 +18,7 @@ type ToastType = "success" | "error" | "warning";
 type Toast = { type: ToastType; text: string };
 
 const zh = {
-  title: "BrowserNode 设置",
+  title: "BrowserVPN 设置",
   subtitle: "所有数据仅保存在本机，不读取网页内容。",
   status: "连接状态",
   idle: "未连接",
@@ -146,7 +146,7 @@ const zh = {
 };
 
 const en: Record<keyof typeof zh, string> = {
-  title: "BrowserNode Settings",
+  title: "BrowserVPN Settings",
   subtitle: "All data stays on this device. Page content is not read.",
   status: "Connection",
   idle: "Disconnected",

@@ -1,12 +1,12 @@
-# BrowserNode
+# BrowserVPN
 
 [中文](README.md) | [English](README.en.md)
 
-BrowserNode 是一个面向 Windows + Chrome 的本地代理工具。它通过 Chrome 扩展管理订阅、节点和代理规则，通过 Native Host 启动本机 `sing-box`，仅代理 Chrome 常规窗口，不修改 Windows 系统代理。
+BrowserVPN 是一个面向 Windows + Chrome 的本地代理工具。它通过 Chrome 扩展管理订阅、节点和代理规则，通过 Native Host 启动本机 `sing-box`，仅代理 Chrome 常规窗口，不修改 Windows 系统代理。
 
 本项目仅允许非商业用途。使用前请确认符合所在地法律法规，使用风险和后果由使用者自行承担。
 
-![BrowserNode 插件预览](assets/browsernode-preview.png)
+![BrowserVPN 插件预览](assets/browservpn-preview.png)
 
 ## 主要功能
 
@@ -29,14 +29,14 @@ BrowserNode 是一个面向 Windows + Chrome 的本地代理工具。它通过 C
 2. 双击运行：
 
 ```text
-install\一键安装-BrowserNode.bat
+install\一键安装-BrowserVPN.bat
 ```
 
 安装脚本会自动完成：
 
 - 安装或检查 Node.js、npm、Go。
 - 构建 Chrome 扩展。
-- 生成 `BrowserNode-Chrome-Extension` 目录。
+- 生成 `BrowserVPN-Chrome-Extension` 目录。
 - 下载并安装 `sing-box.exe`。
 - 编译并注册 Native Host。
 - 打开 Chrome 扩展管理页。
@@ -44,7 +44,7 @@ install\一键安装-BrowserNode.bat
 如果双击被系统拦截，可以在 PowerShell 中运行：
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browsernode.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browservpn.ps1
 ```
 
 ## 加载扩展
@@ -55,10 +55,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browsernode.
 4. 选择仓库根目录下的：
 
 ```text
-BrowserNode-Chrome-Extension
+BrowserVPN-Chrome-Extension
 ```
 
-5. 打开 BrowserNode 扩展设置页。
+5. 打开 BrowserVPN 扩展设置页。
 
 ## 使用
 
@@ -69,12 +69,12 @@ BrowserNode-Chrome-Extension
 5. 点击顶部「连接」。
 6. 不需要代理时点击「断开」。
 
-重启电脑后不需要手动启动 `sing-box.exe` 或 Native Host。打开 Chrome 后，在 BrowserNode 中点击「连接」即可。
+重启电脑后不需要手动启动 `sing-box.exe` 或 Native Host。打开 Chrome 后，在 BrowserVPN 中点击「连接」即可。
 
 ## 卸载
 
 1. 在扩展中点击「断开」。
-2. 在 Chrome 扩展管理页移除 BrowserNode。
+2. 在 Chrome 扩展管理页移除 BrowserVPN。
 3. 运行：
 
 ```powershell
@@ -84,7 +84,7 @@ powershell -ExecutionPolicy Bypass -File .\source\installer\scripts\uninstall-ho
 4. 可手动删除本机安装目录：
 
 ```text
-%LOCALAPPDATA%\BrowserNode
+%LOCALAPPDATA%\BrowserVPN
 ```
 
 ## 隐私

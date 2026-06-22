@@ -1,3 +1,3 @@
-module browernode/native-host
+module browservpn/native-host
 
 go 1.22

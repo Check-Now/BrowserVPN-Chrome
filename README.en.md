@@ -1,12 +1,12 @@
-# BrowserNode
+# BrowserVPN
 
 [中文](README.md) | [English](README.en.md)
 
-BrowserNode is a local proxy tool for Windows and Chrome. It uses a Chrome extension to manage subscriptions, nodes, and proxy rules, and a Native Host to start local `sing-box`. It only proxies regular Chrome windows and does not change the Windows system proxy.
+BrowserVPN is a local proxy tool for Windows and Chrome. It uses a Chrome extension to manage subscriptions, nodes, and proxy rules, and a Native Host to start local `sing-box`. It only proxies regular Chrome windows and does not change the Windows system proxy.
 
 This project is for noncommercial use only. Users are responsible for complying with local laws and for all consequences of use.
 
-![BrowserNode extension preview](assets/browsernode-preview.png)
+![BrowserVPN extension preview](assets/browservpn-preview.png)
 
 ## Features
 
@@ -29,14 +29,14 @@ This project is for noncommercial use only. Users are responsible for complying 
 2. Double-click:
 
 ```text
-install\一键安装-BrowserNode.bat
+install\一键安装-BrowserVPN.bat
 ```
 
 The installer will:
 
 - Install or check Node.js, npm, and Go.
 - Build the Chrome extension.
-- Generate the `BrowserNode-Chrome-Extension` folder.
+- Generate the `BrowserVPN-Chrome-Extension` folder.
 - Download and install `sing-box.exe`.
 - Build and register the Native Host.
 - Open the Chrome extensions page.
@@ -44,7 +44,7 @@ The installer will:
 If double-clicking is blocked, run this in PowerShell:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browsernode.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browservpn.ps1
 ```
 
 ## Load Extension
@@ -55,10 +55,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install\setup-browsernode.
 4. Select this folder under the repository root:
 
 ```text
-BrowserNode-Chrome-Extension
+BrowserVPN-Chrome-Extension
 ```
 
-5. Open the BrowserNode extension settings page.
+5. Open the BrowserVPN extension settings page.
 
 ## Usage
 
@@ -69,12 +69,12 @@ BrowserNode-Chrome-Extension
 5. Click "Connect".
 6. Click "Disconnect" when the proxy is no longer needed.
 
-After rebooting Windows, you do not need to start `sing-box.exe` or the Native Host manually. Open Chrome and click "Connect" in BrowserNode.
+After rebooting Windows, you do not need to start `sing-box.exe` or the Native Host manually. Open Chrome and click "Connect" in BrowserVPN.
 
 ## Uninstall
 
 1. Click "Disconnect" in the extension.
-2. Remove BrowserNode from Chrome extensions.
+2. Remove BrowserVPN from Chrome extensions.
 3. Run:
 
 ```powershell
@@ -84,7 +84,7 @@ powershell -ExecutionPolicy Bypass -File .\source\installer\scripts\uninstall-ho
 4. Optionally delete the local install directory:
 
 ```text
-%LOCALAPPDATA%\BrowserNode
+%LOCALAPPDATA%\BrowserVPN
 ```
 
 ## Privacy

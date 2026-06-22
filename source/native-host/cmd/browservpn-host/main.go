@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"time"
 
-	"browernode/native-host/internal/logging"
-	"browernode/native-host/internal/messaging"
-	"browernode/native-host/internal/process"
-	"browernode/native-host/internal/validation"
+	"browservpn/native-host/internal/logging"
+	"browservpn/native-host/internal/messaging"
+	"browservpn/native-host/internal/process"
+	"browservpn/native-host/internal/validation"
 )
 
 func main() {
