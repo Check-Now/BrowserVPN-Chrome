@@ -30,15 +30,7 @@ BrowserNode/
   source/
 ```
 
-The release repository may include the Windows AMD64 build of `sing-box` in the repository root:
-
-```text
-BrowserNode/
-  sing-box-1.13.13-windows-amd64/
-    sing-box.exe
-```
-
-If the folder name is different, edit `$SingBoxDir` in `install/setup-browsernode.ps1`. If you redistribute `sing-box`, confirm its own license and NOTICE requirements.
+The one-click installer downloads the Windows AMD64 build of `sing-box` from GitHub. You do not need to keep `sing-box.exe` in this repository.
 
 ### 2. Run installer
 
@@ -53,7 +45,7 @@ The script will:
 - Check and install Node.js, npm, and Go.
 - Build the Chrome extension.
 - Copy the extension to `BrowserNode-Chrome-Extension`.
-- Install `sing-box.exe` to `%LOCALAPPDATA%\BrowserNode\bin`.
+- Download and install `sing-box.exe` to `%LOCALAPPDATA%\BrowserNode\bin`.
 - Build and register the Native Host.
 - Open the Chrome extensions page.
 
@@ -136,7 +128,6 @@ BrowserNode/
     installer/scripts/              Native Host install/uninstall scripts
     docs/                           Developer docs
   BrowserNode-Chrome-Extension/     Generated from source/apps/extension/dist, no need to upload
-  sing-box-*-windows-amd64/         sing-box Windows AMD64 files
 ```
 
 ## Uninstall

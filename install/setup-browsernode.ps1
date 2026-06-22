@@ -7,8 +7,8 @@ $Project = Join-Path $Root "source"
 $ExtensionProject = Join-Path $Project "apps\extension"
 $ExtensionOut = Join-Path $Root "BrowserNode-Chrome-Extension"
 $InstallDir = Join-Path $env:LOCALAPPDATA "BrowserNode"
-$SingBoxDir = Join-Path $Root "sing-box-1.13.13-windows-amd64"
-$SingBoxExe = Join-Path $SingBoxDir "sing-box.exe"
+$SingBoxVersion = "1.13.13"
+$SingBoxUrl = "https://github.com/SagerNet/sing-box/releases/download/v$SingBoxVersion/sing-box-$SingBoxVersion-windows-amd64.zip"
 
 function Say($Text) {
   Write-Host ""
@@ -70,7 +70,6 @@ function Remove-GeneratedDir($Path) {
 }
 
 Require-Path $Project "BrowserNode source project was not found: $Project"
-Require-Path $SingBoxExe "sing-box.exe was not found. Expected path: $SingBoxExe"
 
 Say "Stopping old BrowserNode processes"
 Get-CimInstance Win32_Process |
@@ -105,10 +104,22 @@ Require-Path (Join-Path $ExtensionOut "manifest.json") "Extension output was not
 Say "Installing sing-box for current user"
 $BinDir = Join-Path $InstallDir "bin"
 New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
-Copy-Item -Path (Join-Path $SingBoxDir "*") -Destination $BinDir -Recurse -Force
+$SingBoxZip = Join-Path ([IO.Path]::GetTempPath()) "browernode-sing-box-$SingBoxVersion.zip"
+$SingBoxExtract = Join-Path ([IO.Path]::GetTempPath()) "browernode-sing-box-$SingBoxVersion"
+Remove-Item -LiteralPath $SingBoxZip -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath $SingBoxExtract -Recurse -Force -ErrorAction SilentlyContinue
+Invoke-WebRequest -UseBasicParsing -Uri $SingBoxUrl -OutFile $SingBoxZip
+Expand-Archive -LiteralPath $SingBoxZip -DestinationPath $SingBoxExtract -Force
+$DownloadedSingBox = Get-ChildItem -LiteralPath $SingBoxExtract -Recurse -Filter "sing-box.exe" | Select-Object -First 1
+if (!$DownloadedSingBox) {
+  throw "Downloaded sing-box archive did not contain sing-box.exe"
+}
+Copy-Item -Path (Join-Path $DownloadedSingBox.Directory.FullName "*") -Destination $BinDir -Recurse -Force
 $InstalledSingBox = Join-Path $BinDir "sing-box.exe"
 & $InstalledSingBox version | Select-Object -First 1
 Require-LastCommand "sing-box version check failed"
+Remove-Item -LiteralPath $SingBoxZip -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath $SingBoxExtract -Recurse -Force -ErrorAction SilentlyContinue
 
 Say "Building and installing Native Host"
 $HostDir = Join-Path $InstallDir "native-host"

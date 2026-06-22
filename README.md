@@ -29,15 +29,7 @@ BrowserNode/
   source/
 ```
 
-本仓库发布版可以直接包含 Windows AMD64 版本的 `sing-box`，目录保持类似：
-
-```text
-BrowserNode/
-  sing-box-1.13.13-windows-amd64/
-    sing-box.exe
-```
-
-如果目录名不同，请修改 `install/setup-browsernode.ps1` 里的 `$SingBoxDir`。如果你重新上传或分发 `sing-box`，请同时确认它自己的许可证和 NOTICE 要求。
+一键安装脚本会自动从 GitHub 下载 Windows AMD64 版本的 `sing-box`，不需要把 `sing-box.exe` 放进仓库。
 
 ### 2. 一键安装
 
@@ -52,7 +44,7 @@ install/一键安装-BrowserNode.bat
 - 检查并安装 Node.js、npm、Go。
 - 构建 Chrome 扩展。
 - 复制扩展到 `BrowserNode-Chrome-Extension`。
-- 安装 `sing-box.exe` 到 `%LOCALAPPDATA%\BrowserNode\bin`。
+- 下载并安装 `sing-box.exe` 到 `%LOCALAPPDATA%\BrowserNode\bin`。
 - 编译并注册 Native Host。
 - 打开 Chrome 扩展管理页。
 
@@ -135,7 +127,6 @@ BrowserNode/
     installer/scripts/              Native Host 注册/卸载脚本
     docs/                           开发文档
   BrowserNode-Chrome-Extension/     从 source/apps/extension/dist 生成的扩展目录，不需要上传
-  sing-box-*-windows-amd64/         sing-box Windows AMD64 文件
 ```
 
 ## 卸载

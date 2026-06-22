@@ -9,10 +9,8 @@ source/native-host/dist/
 BrowserNode-Chrome-Extension/
 
 # Local binaries and installers
+sing-box-*-windows-amd64/
 *.exe
-!sing-box-*-windows-amd64/
-!sing-box-*-windows-amd64/**
-!sing-box-*-windows-amd64/*.exe
 *.msi
 *.issig
 *.zip
