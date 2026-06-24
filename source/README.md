@@ -1,6 +1,6 @@
-# BrowserVPN
+# BrowserVPN-Chrome
 
-BrowserVPN is a Windows + Chrome local proxy tool. It uses a Manifest V3 extension to control only Chrome's regular-window proxy settings, and a Go Native Messaging host to run `sing-box.exe` on `127.0.0.1`.
+BrowserVPN-Chrome is a Windows + Chrome local proxy tool. It uses a Manifest V3 extension to control only Chrome's regular-window proxy settings, and a Go Native Messaging host to run `sing-box.exe` on `127.0.0.1`.
 
 It does not set the Windows system proxy, inject content scripts, read page content, or send subscription/node data to a cloud service.
 
@@ -8,7 +8,7 @@ It does not set the Windows system proxy, inject content scripts, read page cont
 
 ```text
 Chrome MV3 extension
-  -> Native Messaging host: com.browservpn.host
+  -> Native Messaging host: com.browservpn.chrome.host
   -> sing-box.exe with SOCKS5 inbound on 127.0.0.1:random
   -> selected VLESS / VMess / Trojan / Shadowsocks outbound
 ```
@@ -16,7 +16,7 @@ Chrome MV3 extension
 ## Project Tree
 
 ```text
-BrowserVPN/
+BrowserVPN-Chrome/
   apps/extension/        MV3 extension, parser, UI, proxy control
   native-host/           Go Native Messaging host
   installer/             Inno Setup and PowerShell install scripts
@@ -55,14 +55,14 @@ If you redistribute sing-box, handle its license, NOTICE, and source obligations
 ## Build
 
 ```powershell
-cd BrowserVPN\apps\extension
+cd BrowserVPN-Chrome\apps\extension
 npm install
 npm test
 npm run build
 
 cd ..\..\native-host
 go test ./...
-go build -ldflags="-H=windowsgui" -o dist\browservpn-host.exe .\cmd\browservpn-host
+go build -ldflags="-H=windowsgui" -o dist\browservpn-chrome-host.exe .\cmd\browservpn-chrome-host
 ```
 
 ## Load The Extension
@@ -70,17 +70,17 @@ go build -ldflags="-H=windowsgui" -o dist\browservpn-host.exe .\cmd\browservpn-h
 1. Open `chrome://extensions`.
 2. Enable Developer mode.
 3. Click "Load unpacked".
-4. Select `BrowserVPN\apps\extension\dist`.
+4. Select `BrowserVPN-Chrome\apps\extension\dist`.
 5. Copy the generated extension ID.
 
 ## Native Host Setup
 
-The host manifest must allow only your BrowserVPN extension ID:
+The host manifest must allow only your BrowserVPN-Chrome extension ID:
 
 ```json
 {
-  "name": "com.browservpn.host",
-  "path": "C:\\Users\\you\\AppData\\Local\\BrowserVPN\\native-host\\browservpn-host.exe",
+  "name": "com.browservpn.chrome.host",
+  "path": "C:\\Users\\you\\AppData\\Local\\BrowserVPN-Chrome\\native-host\\browservpn-chrome-host.exe",
   "type": "stdio",
   "allowed_origins": ["chrome-extension://<extension-id>/"]
 }
@@ -89,8 +89,8 @@ The host manifest must allow only your BrowserVPN extension ID:
 Install for the current user:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File BrowserVPN\installer\scripts\install-host.ps1 `
-  -InstallDir "$env:LOCALAPPDATA\BrowserVPN" `
+powershell -ExecutionPolicy Bypass -File BrowserVPN-Chrome\installer\scripts\install-host.ps1 `
+  -InstallDir "$env:LOCALAPPDATA\BrowserVPN-Chrome" `
   -ExtensionId "<extension-id>" `
   -SingBoxPath "C:\Tools\sing-box\sing-box.exe"
 ```
@@ -98,13 +98,13 @@ powershell -ExecutionPolicy Bypass -File BrowserVPN\installer\scripts\install-ho
 The script writes only:
 
 ```text
-HKCU\Software\Google\Chrome\NativeMessagingHosts\com.browservpn.host
+HKCU\Software\Google\Chrome\NativeMessagingHosts\com.browservpn.chrome.host
 ```
 
 Uninstall:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File BrowserVPN\installer\scripts\uninstall-host.ps1
+powershell -ExecutionPolicy Bypass -File BrowserVPN-Chrome\installer\scripts\uninstall-host.ps1
 ```
 
 ## Confirm Only Chrome Is Proxied
@@ -117,7 +117,7 @@ Connect a node in the extension, then check:
 
 ## Security Boundary
 
-Subscription URLs and node configs are sensitive and untrusted input. BrowserVPN validates protocols, blocks localhost/private node addresses by default, redacts logs, and does not store full node URIs in normal UI.
+Subscription URLs and node configs are sensitive and untrusted input. BrowserVPN-Chrome validates protocols, blocks localhost/private node addresses by default, redacts logs, and does not store full node URIs in normal UI.
 
 Chrome proxying is not a full-system VPN. WebRTC, Chrome Secure DNS, enterprise policies, and other extensions may affect actual traffic behavior.
 
@@ -126,7 +126,7 @@ Chrome proxying is not a full-system VPN. WebRTC, Chrome Secure DNS, enterprise 
 Native host logs are stored under:
 
 ```text
-%LOCALAPPDATA%\BrowserVPN\logs\
+%LOCALAPPDATA%\BrowserVPN-Chrome\logs\
 ```
 
 Logs contain status/error codes only. They intentionally avoid subscription URLs, UUIDs, passwords, full domains, and visited websites.
@@ -145,7 +145,7 @@ Logs contain status/error codes only. They intentionally avoid subscription URLs
 [ ] Disconnect restores Chrome proxy control
 [ ] State is consistent after restarting Chrome
 [ ] Native Host uninstall removes the registry key
-[ ] Windows Settings can uninstall BrowserVPN Native Host
+[ ] Windows Settings can uninstall BrowserVPN-Chrome Native Host
 ```
 
 ## Known Limits

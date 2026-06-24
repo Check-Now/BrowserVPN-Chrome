@@ -10,7 +10,7 @@ async function render() {
   const selected = allNodes(data).find((node) => node.id === data.selectedNodeId);
   app.innerHTML = `
     <section class="shell stack">
-      <h1>BrowserVPN</h1>
+      <h1>BrowserVPN-Chrome</h1>
       <div class="panel stack">
         <div><strong>当前状态：</strong>${stateText(data.status.state)}</div>
         <div><strong>当前节点：</strong>${escapeHtml(selected?.name ?? data.status.currentNodeName ?? "未选择")}</div>

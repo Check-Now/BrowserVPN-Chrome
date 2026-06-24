@@ -70,5 +70,5 @@ func logDir() string {
 	if base == "" {
 		base = os.TempDir()
 	}
-	return filepath.Join(base, "BrowserVPN", "logs")
+	return filepath.Join(base, "BrowserVPN-Chrome", "logs")
 }

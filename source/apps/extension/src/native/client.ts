@@ -1,6 +1,6 @@
 import type { CanonicalNode } from "../shared/types";
 
-const hostName = "com.browservpn.host";
+const hostName = "com.browservpn.chrome.host";
 
 export interface NativeResponse<T = unknown> {
   requestId: string;

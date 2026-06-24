@@ -1,6 +1,6 @@
 {
-  "name": "com.browservpn.host",
-  "description": "BrowserVPN Native Host",
+  "name": "com.browservpn.chrome.host",
+  "description": "BrowserVPN-Chrome Native Host",
   "path": "__HOST_PATH__",
   "type": "stdio",
   "allowed_origins": ["chrome-extension://__EXTENSION_ID__/"]

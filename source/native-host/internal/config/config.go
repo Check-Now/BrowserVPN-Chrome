@@ -13,7 +13,7 @@ func RuntimeDir() (string, error) {
 	if base == "" {
 		base = os.TempDir()
 	}
-	dir := filepath.Join(base, "BrowserVPN", "runtime")
+	dir := filepath.Join(base, "BrowserVPN-Chrome", "runtime")
 	return dir, os.MkdirAll(dir, 0700)
 }
 

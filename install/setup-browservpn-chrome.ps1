@@ -6,7 +6,8 @@ $Root = Split-Path -Parent $ScriptDir
 $Project = Join-Path $Root "source"
 $ExtensionProject = Join-Path $Project "apps\extension"
 $ExtensionOut = Join-Path $Root "BrowserVPN-Chrome-Extension"
-$InstallDir = Join-Path $env:LOCALAPPDATA "BrowserVPN"
+$InstallDir = Join-Path $env:LOCALAPPDATA "BrowserVPN-Chrome"
+$OldInstallDir = Join-Path $env:LOCALAPPDATA "BrowserVPN"
 $SingBoxVersion = "1.13.13"
 $SingBoxUrl = "https://github.com/SagerNet/sing-box/releases/download/v$SingBoxVersion/sing-box-$SingBoxVersion-windows-amd64.zip"
 
@@ -69,13 +70,13 @@ function Remove-GeneratedDir($Path) {
   }
 }
 
-Require-Path $Project "BrowserVPN source project was not found: $Project"
+Require-Path $Project "BrowserVPN-Chrome source project was not found: $Project"
 
-Say "Stopping old BrowserVPN processes"
+Say "Stopping old BrowserVPN-Chrome processes"
 Get-CimInstance Win32_Process |
   Where-Object {
-    ($_.Name -in @("browservpn-host.exe", "sing-box.exe")) -and
-    ($_.ExecutablePath -like "$InstallDir*")
+    ($_.Name -in @("browservpn-chrome-host.exe", "browservpn-host.exe", "sing-box.exe")) -and
+    (($_.ExecutablePath -like "$InstallDir*") -or ($_.ExecutablePath -like "$OldInstallDir*"))
   } |
   ForEach-Object {
     Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
@@ -104,8 +105,8 @@ Require-Path (Join-Path $ExtensionOut "manifest.json") "Extension output was not
 Say "Installing sing-box for current user"
 $BinDir = Join-Path $InstallDir "bin"
 New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
-$SingBoxZip = Join-Path ([IO.Path]::GetTempPath()) "browservpn-sing-box-$SingBoxVersion.zip"
-$SingBoxExtract = Join-Path ([IO.Path]::GetTempPath()) "browservpn-sing-box-$SingBoxVersion"
+$SingBoxZip = Join-Path ([IO.Path]::GetTempPath()) "browservpn-chrome-sing-box-$SingBoxVersion.zip"
+$SingBoxExtract = Join-Path ([IO.Path]::GetTempPath()) "browservpn-chrome-sing-box-$SingBoxVersion"
 Remove-Item -LiteralPath $SingBoxZip -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath $SingBoxExtract -Recurse -Force -ErrorAction SilentlyContinue
 Invoke-WebRequest -UseBasicParsing -Uri $SingBoxUrl -OutFile $SingBoxZip
@@ -128,7 +129,7 @@ New-Item -ItemType Directory -Force -Path $HostDir, $ScriptsDir | Out-Null
 Push-Location (Join-Path $Project "native-host")
 go test ./...
 Require-LastCommand "go test failed"
-go build -ldflags="-H=windowsgui" -o (Join-Path $HostDir "browservpn-host.exe") .\cmd\browservpn-host
+go build -ldflags="-H=windowsgui" -o (Join-Path $HostDir "browservpn-chrome-host.exe") .\cmd\browservpn-chrome-host
 Require-LastCommand "go build failed"
 Pop-Location
 Copy-Item -Path (Join-Path $Project "installer\scripts\*") -Destination $ScriptsDir -Recurse -Force
@@ -154,6 +155,6 @@ Write-Host "1. Enable Developer mode."
 Write-Host "2. Click Load unpacked."
 Write-Host "3. Choose: $ExtensionOut"
 Write-Host "4. Extension ID should be: $ExtensionId"
-Write-Host "5. Open BrowserVPN, go to settings, import your subscription."
+Write-Host "5. Open BrowserVPN-Chrome, go to settings, import your subscription."
 Write-Host ""
 Read-Host "Press Enter to exit"

@@ -48,7 +48,7 @@ func (m *Manager) Start(node validation.Node) (Status, error) {
 	}
 	singBox := singBoxPath()
 	if _, err := os.Stat(singBox); err != nil {
-		return Status{State: "error"}, errors.New("sing-box.exe was not found; configure BROWSERVPN_SING_BOX or install it under %LOCALAPPDATA%\\BrowserVPN\\bin")
+		return Status{State: "error"}, errors.New("sing-box.exe was not found; configure BROWSERVPN_CHROME_SING_BOX or install it under %LOCALAPPDATA%\\BrowserVPN-Chrome\\bin")
 	}
 	if err := runCheck(singBox, configPath); err != nil {
 		_ = os.Remove(configPath)
@@ -108,14 +108,14 @@ func (m *Manager) Version() string {
 }
 
 func singBoxPath() string {
-	if value := os.Getenv("BROWSERVPN_SING_BOX"); value != "" {
+	if value := os.Getenv("BROWSERVPN_CHROME_SING_BOX"); value != "" {
 		return value
 	}
 	base := os.Getenv("LOCALAPPDATA")
 	if base == "" {
 		base = os.TempDir()
 	}
-	return filepath.Join(base, "BrowserVPN", "bin", "sing-box.exe")
+	return filepath.Join(base, "BrowserVPN-Chrome", "bin", "sing-box.exe")
 }
 
 func runCheck(singBox, configPath string) error {
