@@ -323,6 +323,7 @@ async function loadAndRender() {
 }
 
 function render() {
+  const scroll = captureScroll();
   const selected = allNodes(data).find((node) => node.id === data.selectedNodeId);
   app.innerHTML = `
     <main class="options-page">
@@ -339,6 +340,23 @@ function render() {
       ${toast ? `<div class="toast ${toast.type}" role="status">${escapeHtml(toast.text)}</div>` : ""}
     </main>
   `;
+  restoreScroll(scroll);
+}
+
+function captureScroll(): Array<{ top: number; left: number }> {
+  return [...app.querySelectorAll<HTMLElement>(".group-list, .node-table")].map((element) => ({
+    top: element.scrollTop,
+    left: element.scrollLeft
+  }));
+}
+
+function restoreScroll(scroll: Array<{ top: number; left: number }>) {
+  [...app.querySelectorAll<HTMLElement>(".group-list, .node-table")].forEach((element, index) => {
+    const previous = scroll[index];
+    if (!previous) return;
+    element.scrollTop = previous.top;
+    element.scrollLeft = previous.left;
+  });
 }
 
 function renderBrand(): string {
