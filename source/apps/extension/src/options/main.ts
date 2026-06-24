@@ -59,7 +59,6 @@ const zh = {
   unsupported: "未支持",
   lastUpdate: "上次更新",
   nodeList: "节点列表",
-  favoritesOnly: "仅收藏",
   availableOnly: "可用节点",
   nodes: "个节点",
   subscriptions: "个订阅来源",
@@ -88,8 +87,6 @@ const zh = {
   viewParseDetails: "查看解析详情",
   latencyUnknown: "未测速",
   latencyFailed: "失败",
-  favorite: "收藏",
-  unfavorite: "取消收藏",
   select: "选择",
   proxyRules: "代理规则",
   modeAll: "全部网页代理",
@@ -124,8 +121,8 @@ const zh = {
   localOnly: "所有数据仅保存在本机，不读取网页内容。",
   duplicateConfirm: "已存在相同订阅。确定覆盖？取消将新增一份。",
   switchConfirm: "切换节点会短暂中断当前 Chrome 代理连接。",
-  deleteConfirm: "删除后将移除该订阅下的所有节点、测速记录和收藏状态。\n当前正在使用的节点无法直接删除，请先断开连接或切换节点。",
-  clearConfirm: "输入 DELETE 确认删除本机保存的订阅、节点、收藏和规则。",
+  deleteConfirm: "删除后将移除该订阅下的所有节点和测速记录。\n当前正在使用的节点无法直接删除，请先断开连接或切换节点。",
+  clearConfirm: "输入 DELETE 确认删除本机保存的订阅、节点和规则。",
   saved: "已保存",
   testing: "测速中...",
   testDone: "测速完成",
@@ -187,7 +184,6 @@ const en: Record<keyof typeof zh, string> = {
   unsupported: "Unsupported",
   lastUpdate: "Last update",
   nodeList: "Node List",
-  favoritesOnly: "Favorites only",
   availableOnly: "Available nodes",
   nodes: "nodes",
   subscriptions: "sources",
@@ -216,8 +212,6 @@ const en: Record<keyof typeof zh, string> = {
   viewParseDetails: "View parse details",
   latencyUnknown: "Not tested",
   latencyFailed: "Failed",
-  favorite: "Favorite",
-  unfavorite: "Unfavorite",
   select: "Select",
   proxyRules: "Proxy Rules",
   modeAll: "Proxy all pages",
@@ -252,8 +246,8 @@ const en: Record<keyof typeof zh, string> = {
   localOnly: "All data stays on this device. Page content is not read.",
   duplicateConfirm: "A matching subscription exists. OK overwrites it; Cancel adds another copy.",
   switchConfirm: "Switching nodes will briefly interrupt the current Chrome proxy connection.",
-  deleteConfirm: "Deleting removes this subscription's nodes, latency records, and favorites.\nDisconnect or switch away before deleting the active node.",
-  clearConfirm: "Type DELETE to remove local subscriptions, nodes, favorites, and rules.",
+  deleteConfirm: "Deleting removes this subscription's nodes and latency records.\nDisconnect or switch away before deleting the active node.",
+  clearConfirm: "Type DELETE to remove local subscriptions, nodes, and rules.",
   saved: "Saved",
   testing: "Testing...",
   testDone: "Test complete",
@@ -517,7 +511,6 @@ function renderGroupBody(subscription: SubscriptionRecord, nodes: CanonicalNode[
 }
 
 function renderNodeRow(node: CanonicalNode): string {
-  const favorite = data.favoriteNodeIds.includes(node.id);
   const selected = data.selectedNodeId === node.id;
   const connected = data.status.state === "connected" && data.status.currentNodeId === node.id;
   const latency = latencyText(node);
@@ -531,7 +524,6 @@ function renderNodeRow(node: CanonicalNode): string {
       </div>
       <span class="latency ${latency.status}">${escapeHtml(latency.text)}</span>
       <span class="node-state">${connected ? `<span class="badge blue">${t("inUse")}</span>` : selected ? `<span class="badge">${t("selectedTag")}</span>` : ""}</span>
-      <button class="icon-button" data-action="toggleFavorite" data-node="${node.id}" title="${favorite ? t("unfavorite") : t("favorite")}">${favorite ? "★" : "☆"}</button>
     </div>
   `;
 }
@@ -623,7 +615,6 @@ async function handleClick(event: Event) {
   if (action === "testGroup" && subscriptionId) return testGroup(subscriptionId);
   if (action === "toggleGroup" && subscriptionId) return toggleGroup(subscriptionId);
   if (action === "selectNode" && nodeId) return selectNode(nodeId);
-  if (action === "toggleFavorite" && nodeId) return toggleFavorite(nodeId);
   if (action === "ruleMode") return setRuleMode(actionTarget.dataset.mode as ProxyRuleMode);
   if (action === "addRuleExamples") return addRuleExamples();
   if (action === "clearRules") return clearRuleDraft();
@@ -759,12 +750,6 @@ async function selectNode(nodeId: string) {
   showToast("success", t("selectedTag"));
 }
 
-async function toggleFavorite(nodeId: string) {
-  const favorites = new Set(data.favoriteNodeIds);
-  favorites.has(nodeId) ? favorites.delete(nodeId) : favorites.add(nodeId);
-  await patchData({ favoriteNodeIds: [...favorites] });
-}
-
 async function setGroup(id: string, expanded: boolean) {
   const ids = new Set(data.expandedGroupIds);
   ids.delete(noGroupsExpanded);
@@ -814,7 +799,6 @@ async function clearSubscriptions() {
   await patchData({
     subscriptions: [],
     selectedNodeId: undefined,
-    favoriteNodeIds: [],
     expandedGroupIds: [],
     proxyRules: { mode: "all", rules: [] }
   });
@@ -885,7 +869,6 @@ function scoreNode(node: CanonicalNode): number {
   let score = 0;
   if (data.status.currentNodeId === node.id) score += 1000;
   if (data.selectedNodeId === node.id) score += 500;
-  if (data.favoriteNodeIds.includes(node.id)) score += 100;
   const latency = (node as CanonicalNode & { latency?: number }).latency;
   if (typeof latency === "number") score += Math.max(0, 100 - latency / 10);
   return score;

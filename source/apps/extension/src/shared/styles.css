@@ -416,6 +416,8 @@ select {
 
 .group-list {
   display: grid;
+  flex: 1 1 auto;
+  align-content: start;
   gap: 10px;
   min-height: 0;
   overflow-x: hidden;
@@ -439,7 +441,7 @@ select {
 
 .group-header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 48px;
+  grid-template-columns: minmax(0, 1fr) 86px;
   align-items: center;
   gap: 12px;
   min-width: 0;
@@ -499,9 +501,10 @@ select {
 }
 
 .group-actions > button {
-  width: 44px;
+  width: 78px;
   min-height: 34px;
   padding: 0;
+  white-space: nowrap;
 }
 
 .node-table {
@@ -512,7 +515,7 @@ select {
 
 .node-row {
   display: grid;
-  grid-template-columns: 10px minmax(0, 1fr) 58px 64px 34px;
+  grid-template-columns: 10px minmax(0, 1fr) 58px 64px;
   align-items: center;
   gap: 8px;
   height: 48px;
@@ -814,7 +817,7 @@ select {
   }
 
   .node-row {
-    grid-template-columns: 10px minmax(0, 1fr) 58px 34px;
+    grid-template-columns: 10px minmax(0, 1fr) 58px;
   }
 
   .node-region,

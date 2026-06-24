@@ -30,7 +30,6 @@ export interface AppData {
   status: RuntimeStatus;
   language: Language;
   expandedGroupIds: string[];
-  favoriteNodeIds: string[];
   proxyRules: ProxyRules;
 }
 
@@ -40,7 +39,6 @@ const defaults: AppData = {
   status: { state: "idle" },
   language: "zh",
   expandedGroupIds: [],
-  favoriteNodeIds: [],
   proxyRules: { mode: "all", rules: [] }
 };
 
@@ -57,7 +55,6 @@ export async function loadData(): Promise<AppData> {
       status: subscription.status ?? "normal"
     })),
     expandedGroupIds: data.expandedGroupIds ?? [],
-    favoriteNodeIds: data.favoriteNodeIds ?? [],
     proxyRules: { ...defaults.proxyRules, ...(data.proxyRules ?? {}) }
   };
 }
