@@ -524,12 +524,13 @@ function renderNodeRow(node: CanonicalNode): string {
   return `
     <div class="node-row ${selected ? "selected" : ""} ${connected ? "connected" : ""}">
       <span class="latency-dot ${latency.status}"></span>
-      <button class="node-name" data-action="selectNode" data-node="${node.id}" title="${escapeAttr(node.name)}">${escapeHtml(node.name)}</button>
-      <span class="tag">${protocolLabel(node.protocol)}</span>
-      <span class="tag">${escapeHtml(transportLabel(node))}</span>
-      <span class="node-region">${escapeHtml(node.sourceSubscriptionName ?? "")}</span>
+      <div class="node-main">
+        <button class="node-name" data-action="selectNode" data-node="${node.id}" title="${escapeAttr(node.name)}">${escapeHtml(node.name)}</button>
+        <span class="tag">${protocolLabel(node.protocol)}</span>
+        <span class="tag">${escapeHtml(transportLabel(node))}</span>
+      </div>
       <span class="latency ${latency.status}">${escapeHtml(latency.text)}</span>
-      ${connected ? `<span class="badge blue">${t("inUse")}</span>` : selected ? `<span class="badge">${t("selectedTag")}</span>` : "<span></span>"}
+      <span class="node-state">${connected ? `<span class="badge blue">${t("inUse")}</span>` : selected ? `<span class="badge">${t("selectedTag")}</span>` : ""}</span>
       <button class="icon-button" data-action="toggleFavorite" data-node="${node.id}" title="${favorite ? t("unfavorite") : t("favorite")}">${favorite ? "★" : "☆"}</button>
     </div>
   `;
