@@ -418,12 +418,14 @@ select {
   display: grid;
   gap: 10px;
   min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
   padding-right: 4px;
 }
 
 .group {
-  overflow: clip;
+  min-width: 0;
+  overflow: hidden;
   border: 1px solid #dce4ef;
   border-radius: 12px;
   background: #fff;
@@ -438,14 +440,20 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  min-width: 0;
   padding: 14px 16px;
   background: #f7faff;
   cursor: pointer;
 }
 
 .group-main {
+  flex: 1 1 auto;
   min-width: 0;
   gap: 10px;
+}
+
+.group-main > div {
+  min-width: 0;
 }
 
 .chevron {
@@ -475,6 +483,9 @@ select {
 
 .group-header p {
   margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .group-actions {
@@ -489,16 +500,17 @@ select {
 
 .node-table {
   display: grid;
+  overflow-x: hidden;
   border-top: 1px solid #e4eaf3;
 }
 
 .node-row {
   display: grid;
-  grid-template-columns: 14px minmax(120px, 1fr) 76px 96px minmax(80px, 0.6fr) 86px 86px 38px;
+  grid-template-columns: 14px minmax(0, 1fr) 74px 74px 76px 86px 34px;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   height: 48px;
-  padding: 0 14px;
+  padding: 0 10px;
   border-top: 1px solid #eef2f7;
   font-size: 13px;
 }
@@ -534,6 +546,7 @@ select {
 }
 
 .node-region {
+  display: none;
   overflow: hidden;
   color: #6f7f99;
   text-overflow: ellipsis;
