@@ -270,6 +270,7 @@ const en: Record<keyof typeof zh, string> = {
 const i18n: Record<Language, Record<keyof typeof zh, string>> = { zh, en };
 const app = document.querySelector<HTMLDivElement>("#app")!;
 const noGroupsExpanded = "__none__";
+const nodeNameCollator = new Intl.Collator("zh-Hans-CN", { numeric: true, sensitivity: "base" });
 
 let data: AppData;
 let language: Language = "zh";
@@ -665,6 +666,7 @@ function handleChange(event: Event) {
 
 async function importSubscription() {
   if (importBusy) return;
+  syncImportForm();
   importBusy = true;
   render();
   try {
@@ -705,6 +707,12 @@ async function importSubscription() {
     importBusy = false;
     render();
   }
+}
+
+function syncImportForm() {
+  importForm.name = app.querySelector<HTMLInputElement>("[data-field='importName']")?.value ?? importForm.name;
+  importForm.url = app.querySelector<HTMLInputElement>("[data-field='importUrl']")?.value ?? importForm.url;
+  importForm.text = app.querySelector<HTMLTextAreaElement>("[data-field='importText']")?.value ?? importForm.text;
 }
 
 async function importBody(sourceType: ImportSourceType): Promise<string> {
@@ -880,7 +888,7 @@ function groupedSubscriptions(): SubscriptionRecord[] {
 }
 
 function sortNodes(nodes: CanonicalNode[]): CanonicalNode[] {
-  return [...nodes].sort((a, b) => a.name.localeCompare(b.name, language === "zh" ? "zh-Hans-CN" : "en", { numeric: true }));
+  return [...nodes].sort((a, b) => nodeNameCollator.compare(a.name, b.name));
 }
 
 function groupExpanded(subscription: SubscriptionRecord): boolean {
